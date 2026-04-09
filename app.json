@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Cakto Bank",
+    "slug": "cakto-bank-test",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A84FF"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cakto.bank.test"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A84FF"
+      },
+      "package": "com.cakto.bank.test"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "scheme": "caktobank"
+  }
+}
