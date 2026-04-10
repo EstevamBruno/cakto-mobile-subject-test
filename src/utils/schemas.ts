@@ -1,14 +1,12 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export const loginSchema = z.object({
   cpf: z
     .string()
-    .min(11, "CPF deve ter pelo menos 11 dígitos")
+    .min(14, "CPF deve ter pelo menos 11 dígitos")
     .transform((val) => val.replace(/\D/g, "")),
-  password: z
-    .string()
-    .min(6, "Senha deve ter pelo menos 6 caracteres"),
-})
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+});
 
 export const transferSchema = z.object({
   bank: z.string().min(1, "Selecione o banco"),
@@ -28,7 +26,7 @@ export const transferSchema = z.object({
     .positive("Valor deve ser positivo")
     .min(0.01, "Valor mínimo de R$ 0,01"),
   note: z.string().max(140, "Máximo 140 caracteres").optional(),
-})
+});
 
-export type LoginInput = z.infer<typeof loginSchema>
-export type TransferInput = z.infer<typeof transferSchema>
+export type LoginInput = z.infer<typeof loginSchema>;
+export type TransferInput = z.infer<typeof transferSchema>;
