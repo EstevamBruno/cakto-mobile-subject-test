@@ -1,6 +1,7 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { colors, spacing, typography } from "@/theme";
+import React, { useEffect } from "react";
+import { useAuthStore, useTransactionStore } from "@/stores";
+import { useHomeModel } from "@/screens/Home/Home.model";
+import { HomeView } from "@/screens/Home/Home.view";
 
 /**
  * TODO: Implementar tela Home (Dashboard)
@@ -24,28 +25,23 @@ import { colors, spacing, typography } from "@/theme";
  * Referência: SPEC.md seção 2
  */
 export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>🏦</Text>
-      <Text style={styles.subtitle}>Implemente a tela Home</Text>
-    </View>
-  );
-}
+  const { user, logout } = useAuthStore();
+  const { balance, transactions, isLoading, fetchTransactions, fetchBalance } =
+    useTransactionStore();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.background,
-    padding: spacing.xl,
-  },
-  title: {
-    fontSize: 64,
-  },
-  subtitle: {
-    fontSize: typography.md,
-    color: colors.textSecondary,
-    marginTop: spacing.lg,
-  },
-});
+  useEffect(() => {
+    Promise.all([fetchBalance(), fetchTransactions(1)]);
+  }, []);
+
+  const homeModel = useHomeModel({
+    user,
+    balance,
+    transactions,
+    isLoading,
+    fetchTransactions,
+    fetchBalance,
+    logout,
+  });
+
+  return <HomeView {...homeModel} />;
+}
