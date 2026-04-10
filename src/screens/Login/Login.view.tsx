@@ -1,11 +1,20 @@
 import React, { FC } from "react";
 import { StyleSheet, ScrollView, Image } from "react-native";
+import { Controller } from "react-hook-form";
 import { colors, spacing, typography } from "@/theme";
 import { Button, Input } from "@/components";
-import { Link } from "expo-router";
+import { formatCPF } from "@/utils/format";
 import CaktoLogo from "../../../assets/cakto-logo.png";
+import { useLoginModel } from "./Login.model";
 
-export const LoginView: FC = () => {
+interface LoginViewProps extends ReturnType<typeof useLoginModel> {}
+
+export const LoginView: FC<LoginViewProps> = ({
+  control,
+  errors,
+  isSubmitting,
+  onSubmit,
+}) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -13,11 +22,41 @@ export const LoginView: FC = () => {
         style={{ width: 300, height: 80 }}
         resizeMethod="resize"
       />
-      <Input label="CPF/CNPJ" placeholder="Digite seu CPF/CNPJ" />
-      <Input label="Senha" placeholder="Digite sua senha" secureTextEntry />
 
-      <Button title="Entrar" onPress={() => {}} />
-      <Link href="/login">Esqueci minha senha</Link>
+      <Controller
+        control={control}
+        name="cpf"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="CPF/CNPJ"
+            placeholder="Digite seu CPF/CNPJ"
+            onChangeText={(text) => onChange(formatCPF(text))}
+            onBlur={onBlur}
+            value={value}
+            error={errors.cpf?.message}
+            keyboardType="numeric"
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="Senha"
+            placeholder="Digite sua senha"
+            secureTextEntry
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            error={errors.password?.message}
+          />
+        )}
+      />
+
+      <Button title="Entrar" onPress={onSubmit} loading={isSubmitting} />
+      <Button title="Esqueci minha senha" variant="ghost" onPress={() => {}} />
     </ScrollView>
   );
 };
