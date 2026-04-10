@@ -1,6 +1,7 @@
-import React from "react"
-import { View, Text, StyleSheet } from "react-native"
-import { colors, spacing, typography } from "@/theme"
+import React, { useEffect } from "react";
+import { useTransactionStore } from "@/stores";
+import { useTransactionsModel } from "@/screens/Transactions/Transactions.model";
+import { TransactionsView } from "@/screens/Transactions/Transactions.view";
 
 /**
  * TODO: Implementar tela de Transações (Extrato)
@@ -26,28 +27,27 @@ import { colors, spacing, typography } from "@/theme"
  * Referência: SPEC.md seção 3
  */
 export default function TransactionsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>📊</Text>
-      <Text style={styles.subtitle}>Implemente a tela de Extrato</Text>
-    </View>
-  )
-}
+  const {
+    transactions,
+    isLoading,
+    isLoadingMore,
+    page,
+    hasMore,
+    fetchTransactions,
+  } = useTransactionStore();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.background,
-    padding: spacing.xl,
-  },
-  title: {
-    fontSize: 64,
-  },
-  subtitle: {
-    fontSize: typography.md,
-    color: colors.textSecondary,
-    marginTop: spacing.lg,
-  },
-})
+  useEffect(() => {
+    fetchTransactions(1);
+  }, []);
+
+  const transactionsModel = useTransactionsModel({
+    transactions,
+    isLoading,
+    isLoadingMore,
+    page,
+    hasMore,
+    fetchTransactions,
+  });
+
+  return <TransactionsView {...transactionsModel} />;
+}
