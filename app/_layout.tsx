@@ -13,12 +13,7 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="dark" />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: "#F5F5F7" },
-        }}
-      />
+      <Stack screenOptions={{ headerShown: false }} />
     </>
   )
 }

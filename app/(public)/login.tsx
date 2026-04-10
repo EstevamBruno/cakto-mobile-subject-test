@@ -1,6 +1,7 @@
 import React from "react";
 import { LoginView } from "@/screens/Login/Login.view";
 import { useLoginModel } from "@/screens/Login/Login.model";
+import { useAuthStore } from "@/stores";
 
 /**
  * TODO: Implementar tela de Login
@@ -24,7 +25,8 @@ import { useLoginModel } from "@/screens/Login/Login.model";
  * Referência: SPEC.md seção 1
  */
 export default function LoginScreen() {
-  const loginModel = useLoginModel();
+  const { login, isLoading, error } = useAuthStore();
+  const loginModel = useLoginModel({ login, isLoading, error });
 
   return <LoginView {...loginModel} />;
 }

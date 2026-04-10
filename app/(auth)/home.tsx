@@ -1,6 +1,6 @@
-import React from "react"
-import { View, Text, StyleSheet } from "react-native"
-import { colors, spacing, typography } from "../src/theme"
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { colors, spacing, typography } from "@/theme";
 
 /**
  * TODO: Implementar tela Home (Dashboard)
@@ -29,7 +29,7 @@ export default function HomeScreen() {
       <Text style={styles.title}>🏦</Text>
       <Text style={styles.subtitle}>Implemente a tela Home</Text>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     marginTop: spacing.lg,
   },
-})
+});
