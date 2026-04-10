@@ -1,5 +1,6 @@
 import React from "react"
-import { View, ViewStyle } from "react-native"
+import { View, ViewStyle, StyleSheet } from "react-native"
+import { colors, borderRadius, spacing, shadows } from "../theme"
 
 interface CardProps {
   children: React.ReactNode
@@ -18,5 +19,14 @@ interface CardProps {
  * Referência: SPEC.md seção 5 — Componentes Reutilizáveis
  */
 export function Card({ children, style }: CardProps) {
-  return <View>{children}</View>
+  return <View style={[styles.card, style]}>{children}</View>
 }
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.lg,
+    padding: spacing.lg,
+    ...shadows.sm,
+  },
+})
