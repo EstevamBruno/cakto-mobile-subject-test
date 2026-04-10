@@ -2,7 +2,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginInput } from "@/utils/schemas";
 
-export const useLoginModel = () => {
+interface LoginModelModule {
+  login: (cpf: string, password: string) => Promise<void>;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export const useLoginModel = (module: LoginModelModule) => {
+  const { login, isLoading, error } = module;
+
   const {
     control,
     handleSubmit,
@@ -18,9 +26,15 @@ export const useLoginModel = () => {
 
   const onSubmit = (): void => {
     handleSubmit((data: LoginInput) => {
-      console.log(data);
+      login(data.cpf, data.password);
     })();
   };
 
-  return { control, errors, isSubmitting, onSubmit };
+  return {
+    control,
+    errors,
+    isLoading: isLoading || isSubmitting,
+    error,
+    onSubmit,
+  };
 };

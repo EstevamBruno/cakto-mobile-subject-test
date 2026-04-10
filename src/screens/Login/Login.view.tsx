@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { StyleSheet, ScrollView, Image } from "react-native";
+import { StyleSheet, ScrollView, Image, Text } from "react-native";
 import { Controller } from "react-hook-form";
 import { colors, spacing, typography } from "@/theme";
 import { Button, Input } from "@/components";
@@ -12,7 +12,8 @@ interface LoginViewProps extends ReturnType<typeof useLoginModel> {}
 export const LoginView: FC<LoginViewProps> = ({
   control,
   errors,
-  isSubmitting,
+  isLoading,
+  error,
   onSubmit,
 }) => {
   return (
@@ -22,6 +23,8 @@ export const LoginView: FC<LoginViewProps> = ({
         style={{ width: 300, height: 80 }}
         resizeMethod="resize"
       />
+
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
       <Controller
         control={control}
@@ -55,7 +58,7 @@ export const LoginView: FC<LoginViewProps> = ({
         )}
       />
 
-      <Button title="Entrar" onPress={onSubmit} loading={isSubmitting} />
+      <Button title="Entrar" onPress={onSubmit} loading={isLoading} />
       <Button title="Esqueci minha senha" variant="ghost" onPress={() => {}} />
     </ScrollView>
   );
@@ -83,5 +86,10 @@ const styles = StyleSheet.create({
     fontSize: typography.md,
     color: colors.textSecondary,
     marginTop: spacing.lg,
+  },
+  errorText: {
+    fontSize: typography.xs,
+    color: colors.danger,
+    textAlign: "center",
   },
 });
