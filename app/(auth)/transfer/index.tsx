@@ -1,6 +1,7 @@
-import React from "react"
-import { View, Text, StyleSheet } from "react-native"
-import { colors, spacing, typography } from "@/theme"
+import React from "react";
+import { api } from "@/services/api";
+import { useTransferModel } from "@/screens/Transfer/Transfer.model";
+import { TransferView } from "@/screens/Transfer/Transfer.view";
 
 /**
  * TODO: Implementar tela de Transferência
@@ -46,28 +47,7 @@ import { colors, spacing, typography } from "@/theme"
  * Referência: SPEC.md seção 4
  */
 export default function TransferScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>💸</Text>
-      <Text style={styles.subtitle}>Implemente a tela de Transferência</Text>
-    </View>
-  )
-}
+  const model = useTransferModel({ transfer: api.transfer });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.background,
-    padding: spacing.xl,
-  },
-  title: {
-    fontSize: 64,
-  },
-  subtitle: {
-    fontSize: typography.md,
-    color: colors.textSecondary,
-    marginTop: spacing.lg,
-  },
-})
+  return <TransferView {...model} />;
+}
