@@ -77,9 +77,9 @@ export function Input({
             style={styles.iconButton}
           >
             {isPasswordVisible ? (
-              <EyeOff size={20} color={colors.textSecondary} />
-            ) : (
               <Eye size={20} color={colors.textSecondary} />
+            ) : (
+              <EyeOff size={20} color={colors.textSecondary} />
             )}
           </TouchableOpacity>
         ) : rightIcon ? (
