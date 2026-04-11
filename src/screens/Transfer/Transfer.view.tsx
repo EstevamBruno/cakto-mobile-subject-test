@@ -182,7 +182,11 @@ export const TransferView: FC<TransferViewProps> = ({
             />
 
             <View style={styles.buttonContainer}>
-              <Button title="Revisar transferência" onPress={onReview} />
+              <Button
+                title="Revisar transferência"
+                onPress={onReview}
+                accessibilityHint="Avança para a revisão dos dados antes de confirmar"
+              />
             </View>
           </ScrollView>
         )}
@@ -223,8 +227,14 @@ export const TransferView: FC<TransferViewProps> = ({
                 title="Confirmar"
                 onPress={onConfirm}
                 loading={isLoading}
+                accessibilityHint="Confirma e envia a transferência"
               />
-              <Button title="Voltar" variant="secondary" onPress={onBack} />
+              <Button
+                title="Voltar"
+                variant="secondary"
+                onPress={onBack}
+                accessibilityHint="Retorna ao formulário de transferência"
+              />
             </View>
           </ScrollView>
         )}
@@ -240,11 +250,16 @@ export const TransferView: FC<TransferViewProps> = ({
                 <Text style={styles.resultSubtitle}>ID da transação</Text>
                 <Text style={styles.transactionId}>{transactionId}</Text>
                 <View style={styles.resultButtons}>
-                  <Button title="Nova transferência" onPress={onNewTransfer} />
+                  <Button
+                    title="Nova transferência"
+                    onPress={onNewTransfer}
+                    accessibilityHint="Reinicia o formulário para uma nova transferência"
+                  />
                   <Button
                     title="Voltar ao início"
                     variant="secondary"
                     onPress={() => router.replace("/home")}
+                    accessibilityHint="Retorna à tela inicial"
                   />
                 </View>
               </>
@@ -258,7 +273,11 @@ export const TransferView: FC<TransferViewProps> = ({
                   {errorMessage ?? "Tente novamente mais tarde"}
                 </Text>
                 <View style={styles.resultButtons}>
-                  <Button title="Tentar novamente" onPress={onBack} />
+                  <Button
+                    title="Tentar novamente"
+                    onPress={onBack}
+                    accessibilityHint="Volta ao formulário para corrigir os dados"
+                  />
                 </View>
               </>
             )}

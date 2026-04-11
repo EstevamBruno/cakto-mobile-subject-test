@@ -58,8 +58,18 @@ export const LoginView: FC<LoginViewProps> = ({
         )}
       />
 
-      <Button title="Entrar" onPress={onSubmit} loading={isLoading} />
-      <Button title="Esqueci minha senha" variant="ghost" onPress={() => {}} />
+      <Button
+        title="Entrar"
+        onPress={onSubmit}
+        loading={isLoading}
+        accessibilityHint="Autentica com os dados informados e abre sua conta"
+      />
+      <Button
+        title="Esqueci minha senha"
+        variant="ghost"
+        onPress={() => {}}
+        accessibilityHint="Abre o fluxo de recuperação de senha"
+      />
     </ScrollView>
   );
 };

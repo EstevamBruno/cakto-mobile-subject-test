@@ -17,6 +17,7 @@ interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
+  accessibilityHint?: string;
 }
 
 /**
@@ -38,6 +39,7 @@ export function Button({
   variant = "primary",
   loading = false,
   disabled = false,
+  accessibilityHint,
 }: ButtonProps) {
   const isDisabled = disabled || loading;
 
@@ -50,6 +52,7 @@ export function Button({
       disabled={isDisabled}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled, busy: loading }}
+      accessibilityHint={accessibilityHint}
       style={({ pressed }) => [
         styles.base,
         styles[variant],
