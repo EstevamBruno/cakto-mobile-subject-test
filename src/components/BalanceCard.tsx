@@ -1,11 +1,11 @@
-import React, { memo, useState } from "react"
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native"
-import { Eye, EyeOff, TrendingUp } from "lucide-react-native"
-import { colors, typography, spacing, borderRadius, shadows } from "../theme"
-import { formatCurrency } from "../utils/format"
+import React, { memo, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Eye, EyeOff, TrendingUp } from "lucide-react-native";
+import { colors, typography, spacing, borderRadius, shadows } from "../theme";
+import { formatCurrency } from "../utils/format";
 
 interface BalanceCardProps {
-  balance: number
+  balance: number;
 }
 
 /**
@@ -22,8 +22,10 @@ interface BalanceCardProps {
  *
  * Referência: SPEC.md seção 5 — Componentes Reutilizáveis
  */
-export const BalanceCard = memo(function BalanceCard({ balance }: BalanceCardProps) {
-  const [isVisible, setIsVisible] = useState(true)
+export const BalanceCard = memo(function BalanceCard({
+  balance,
+}: BalanceCardProps) {
+  const [isVisible, setIsVisible] = useState(true);
 
   return (
     <View style={styles.card}>
@@ -35,16 +37,18 @@ export const BalanceCard = memo(function BalanceCard({ balance }: BalanceCardPro
           accessibilityHint="Alterna a visibilidade do saldo"
         >
           {isVisible ? (
-            <EyeOff size={20} color={colors.surface} />
-          ) : (
             <Eye size={20} color={colors.surface} />
+          ) : (
+            <EyeOff size={20} color={colors.surface} />
           )}
         </TouchableOpacity>
       </View>
 
       <Text
         style={styles.value}
-        accessibilityLabel={isVisible ? formatCurrency(balance) : "Saldo oculto"}
+        accessibilityLabel={
+          isVisible ? formatCurrency(balance) : "Saldo oculto"
+        }
       >
         {isVisible ? formatCurrency(balance) : "••••••••"}
       </Text>
@@ -54,8 +58,8 @@ export const BalanceCard = memo(function BalanceCard({ balance }: BalanceCardPro
         <Text style={styles.trendText}>+2.5% este mês</Text>
       </View>
     </View>
-  )
-})
+  );
+});
 
 const styles = StyleSheet.create({
   card: {
@@ -92,4 +96,4 @@ const styles = StyleSheet.create({
     fontSize: typography.xs,
     opacity: 0.85,
   },
-})
+});
