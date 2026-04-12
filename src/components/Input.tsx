@@ -9,12 +9,16 @@ import {
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius } from "../theme";
+import { formatCPF } from "../utils/format";
+
+type MaskType = "CPF";
 
 interface InputProps extends Omit<TextInputProps, "style"> {
   label: string;
   error?: string;
   secureTextEntry?: boolean;
   rightIcon?: React.ReactNode;
+  maskType?: MaskType;
 }
 
 /**
@@ -31,17 +35,34 @@ interface InputProps extends Omit<TextInputProps, "style"> {
  *
  * Referência: SPEC.md seção 5 — Componentes Reutilizáveis
  */
+const masks: Record<MaskType, (value: string) => string> = {
+  CPF: formatCPF,
+};
+
 export function Input({
   label,
   error,
   secureTextEntry,
   rightIcon,
+  maskType,
   onFocus,
   onBlur,
+  onChangeText,
+  value,
   ...props
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const displayValue = maskType && value ? masks[maskType](value) : value;
+
+  const handleChangeText = (text: string) => {
+    if (maskType) {
+      onChangeText?.(text.replace(/\D/g, ""));
+    } else {
+      onChangeText?.(text);
+    }
+  };
 
   const borderColor = error
     ? colors.danger
@@ -66,6 +87,8 @@ export function Input({
             setIsFocused(false);
             onBlur?.(e);
           }}
+          value={displayValue}
+          onChangeText={handleChangeText}
           {...props}
         />
         {secureTextEntry ? (

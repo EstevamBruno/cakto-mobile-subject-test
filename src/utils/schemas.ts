@@ -3,7 +3,7 @@ import { z } from "zod";
 export const loginSchema = z.object({
   cpf: z
     .string()
-    .min(14, "CPF deve ter pelo menos 11 dígitos")
+    .min(11, "CPF deve ter pelo menos 11 dígitos")
     .transform((val) => val.replace(/\D/g, "")),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 });

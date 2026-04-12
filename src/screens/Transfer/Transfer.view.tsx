@@ -129,9 +129,10 @@ export const TransferView: FC<TransferViewProps> = ({
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
                   label="CPF/CNPJ do favorecido"
+                  maskType="CPF"
                   placeholder="000.000.000-00"
                   keyboardType="numeric"
-                  onChangeText={(t) => onChange(formatCPF(t))}
+                  onChangeText={onChange}
                   onBlur={onBlur}
                   value={value}
                   error={errors.cpf?.message}
