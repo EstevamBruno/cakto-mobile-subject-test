@@ -1,61 +1,109 @@
 import {
   formatCurrency,
   formatDate,
+  formatDateShort,
   formatCPF,
   formatAccountNumber,
   formatMoneyInput,
   parseMoneyInput,
   getInitials,
-} from "../../src/utils/format"
-
-/**
- * TODO: Implementar testes para os utilitários de formatação
- *
- * Funções disponíveis para testar:
- * - formatCurrency(value: number) → "R$ 1.234,56"
- * - formatDate(dateString: string) → "9 de abril"
- * - formatCPF(cpf: string) → "123.456.789-00"
- * - formatAccountNumber(account: string) → "12345-6"
- * - formatMoneyInput(value: string) → "12,34"
- * - parseMoneyInput(value: string) → 12.34
- * - getInitials(name: string) → "MS"
- *
- * Cubra pelo menos:
- * - Valores normais (happy path)
- * - Valores zerados / vazios (edge cases)
- * - Valores grandes
- */
+} from "../../src/utils/format";
 
 describe("formatCurrency", () => {
-  it.todo("formats number to BRL string")
-  it.todo("formats zero correctly")
-  it.todo("formats large numbers correctly")
-})
+  it("formats number to BRL string", () => {
+    const result = formatCurrency(1234.56);
+    expect(result).toMatch(/R\$/);
+    expect(result).toMatch(/1\.234/);
+    expect(result).toMatch(/56/);
+  });
+
+  it("formats zero correctly", () => {
+    const result = formatCurrency(0);
+    expect(result).toMatch(/R\$/);
+    expect(result).toMatch(/0,00/);
+  });
+
+  it("formats large numbers correctly", () => {
+    const result = formatCurrency(1000000);
+    expect(result).toMatch(/R\$/);
+    expect(result).toMatch(/1\.000\.000/);
+  });
+});
 
 describe("formatDate", () => {
-  it.todo("formats date to long date string in pt-BR")
-})
+  it("formats date to long date string in pt-BR", () => {
+    const result = formatDate("2024-04-15T12:00:00");
+    expect(result).toMatch(/15/);
+    expect(result).toMatch(/abril/);
+  });
+});
+
+describe("formatDateShort", () => {
+  it("formats date to dd/mm in pt-BR", () => {
+    const result = formatDateShort("2024-04-15T12:00:00");
+    expect(result).toMatch(/15/);
+    expect(result).toMatch(/04/);
+  });
+});
 
 describe("formatCPF", () => {
-  it.todo("formats 11 digit CPF correctly")
-  it.todo("formats partial CPF")
-})
+  it("formats 11 digit CPF correctly", () => {
+    expect(formatCPF("12345678900")).toBe("123.456.789-00");
+  });
+
+  it("truncates to 14 chars when input exceeds 11 digits", () => {
+    expect(formatCPF("123.456.789-001")).toBe("123.456.789-00");
+  });
+
+  it("formats partial CPF", () => {
+    expect(formatCPF("1234567")).toBe("123.456.7");
+  });
+
+  it("formats 4-6 digit CPF with one dot group", () => {
+    expect(formatCPF("1234")).toBe("123.4");
+  });
+
+  it("returns digits as-is for 3 or fewer characters", () => {
+    expect(formatCPF("123")).toBe("123");
+  });
+});
 
 describe("formatAccountNumber", () => {
-  it.todo("formats numeric string to account format")
-})
+  it("formats numeric string to account format", () => {
+    expect(formatAccountNumber("123456")).toBe("12345-6");
+  });
+
+  it("returns original value when shorter than 6 digits", () => {
+    expect(formatAccountNumber("123")).toBe("123");
+  });
+});
 
 describe("formatMoneyInput", () => {
-  it.todo("formats input to money string")
-  it.todo("handles empty string")
-})
+  it("formats input to money string", () => {
+    expect(formatMoneyInput("1234")).toBe("12,34");
+  });
+
+  it("handles empty string", () => {
+    expect(formatMoneyInput("")).toBe("");
+  });
+});
 
 describe("parseMoneyInput", () => {
-  it.todo("parses money string to number")
-  it.todo("handles empty string")
-})
+  it("parses money string to number", () => {
+    expect(parseMoneyInput("12,34")).toBe(12.34);
+  });
+
+  it("handles empty string", () => {
+    expect(parseMoneyInput("")).toBe(0);
+  });
+});
 
 describe("getInitials", () => {
-  it.todo("gets initials from full name")
-  it.todo("gets two letters from single name")
-})
+  it("gets initials from full name", () => {
+    expect(getInitials("Maria Silva")).toBe("MS");
+  });
+
+  it("gets two letters from single name", () => {
+    expect(getInitials("Maria")).toBe("MA");
+  });
+});
