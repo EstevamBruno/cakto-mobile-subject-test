@@ -10,18 +10,32 @@ interface TransactionItemProps {
 }
 
 /**
- * TODO: Implementar componente TransactionItem
+ * Renders a single transaction row with a type icon, description, date, and amount.
  *
- * Requisitos:
- * - Ícone à esquerda com fundo colorido (verde income, vermelho expense)
- * - Usar ArrowDownLeft (income) e ArrowUpRight (expense) do lucide-react-native
- * - Descrição da transação + data formatada (usar formatDate)
- * - Valor à direita (verde para positivo, vermelho para negativo)
- * - Formatação de valor com formatCurrency
- * - Usar React.memo para otimização
- * - useCallback para renderIcon
+ * Features:
+ * - Green `ArrowDownLeft` icon (income) or red `ArrowUpRight` icon (expense) on a tinted circular background.
+ * - Description truncated to one line; date formatted via `formatDate`.
+ * - Amount prefixed with `+` / `-` and formatted via `formatCurrency`; coloured green for income, red for expense.
+ * - Memoised with `React.memo`; icon renderer stabilised with `useCallback`.
+ * - Full `accessibilityLabel` combining description, date, direction, and amount.
  *
- * Referência: SPEC.md seção 5 — Componentes Reutilizáveis
+ * @param props.transaction - The transaction object to display.
+ *
+ * @example
+ * <TransactionItem
+ *   transaction={{
+ *     id: "1",
+ *     description: "Salário",
+ *     amount: 5000,
+ *     date: "2024-01-15",
+ *     type: "income",
+ *     category: "salary",
+ *   }}
+ * />
+ *
+ * @example
+ * // Expense row inside a FlatList
+ * const renderItem = ({ item }) => <TransactionItem transaction={item} />;
  */
 export const TransactionItem = memo(function TransactionItem({
   transaction,
