@@ -21,24 +21,44 @@ interface InputProps extends Omit<TextInputProps, "style"> {
   maskType?: MaskType;
 }
 
-/**
- * TODO: Implementar componente Input
- *
- * Requisitos:
- * - Label acima do input
- * - Estado de foco (border azul)
- * - Estado de erro (border vermelha + mensagem abaixo)
- * - Toggle de visibilidade para campos de senha (ícone Eye/EyeOff)
- * - Suporte a rightIcon genérico
- * - Acessibilidade: accessibilityLabel com o texto do label
- * - Altura: 52px, borderRadius: 12px
- *
- * Referência: SPEC.md seção 5 — Componentes Reutilizáveis
- */
 const masks: Record<MaskType, (value: string) => string> = {
   CPF: formatCPF,
 };
 
+/**
+ * A labeled text input with focus/error border states, optional password
+ * visibility toggle, and optional input masking.
+ *
+ * Features:
+ * - Blue border on focus, red border + error message on error
+ * - Eye/EyeOff toggle when `secureTextEntry` is true
+ * - `maskType="CPF"` formats display value; raw digits are passed to `onChangeText`
+ * - `rightIcon` slot for any custom trailing icon
+ *
+ * @param props.label - Text rendered above the input; also used as `accessibilityLabel`.
+ * @param props.error - Error message shown below the input; triggers red border when set.
+ * @param props.secureTextEntry - When `true`, hides text and renders a visibility toggle icon.
+ * @param props.rightIcon - Custom node rendered at the trailing edge (ignored when `secureTextEntry` is true).
+ * @param props.maskType - Mask to apply to the display value. Currently supports `"CPF"`.
+ *
+ * @example
+ * // Basic usage
+ * <Input label="Email" placeholder="you@example.com" value={email} onChangeText={setEmail} />
+ *
+ * @example
+ * // Password field
+ * <Input label="Password" secureTextEntry value={password} onChangeText={setPassword} />
+ *
+ * @example
+ * // CPF with error
+ * <Input
+ *   label="CPF"
+ *   maskType="CPF"
+ *   value={cpf}
+ *   onChangeText={setCpf}
+ *   error={cpfError}
+ * />
+ */
 export function Input({
   label,
   error,
