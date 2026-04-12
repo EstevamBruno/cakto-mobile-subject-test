@@ -15,8 +15,8 @@ interface AuthState {
   clearError: () => void;
 }
 
-const TOKEN_KEY = "cakto_auth_token";
-const USER_KEY = "cakto_auth_user";
+export const TOKEN_KEY = "cakto_auth_token";
+export const USER_KEY = "cakto_auth_user";
 
 /**
  * TODO: Implementar useAuthStore com Zustand
