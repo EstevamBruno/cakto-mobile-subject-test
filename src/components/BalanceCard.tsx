@@ -4,23 +4,25 @@ import { Eye, EyeOff, TrendingUp } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius, shadows } from "../theme";
 import { formatCurrency } from "../utils/format";
 
+/**
+ * Props for the {@link BalanceCard} component.
+ */
 interface BalanceCardProps {
+  /** Account balance value formatted in BRL by `formatCurrency`. */
   balance: number;
 }
 
 /**
- * TODO: Implementar componente BalanceCard
+ * Displays the user's total account balance on a primary-coloured card.
  *
- * Requisitos:
- * - Fundo azul (colors.primary)
- * - Label "Saldo Total" no topo
- * - Valor grande centralizado, formatado em BRL (formatCurrency)
- * - Toggle de visibilidade do saldo (Eye/EyeOff) — estado interno useState
- * - Quando oculto, mostrar "••••••••"
- * - Indicador de tendência (TrendingUp + "+2.5% este mês") — mockado
- * - Sombra (shadows.lg), borderRadius xl
+ * Features:
+ * - Formats the balance in BRL via `formatCurrency`.
+ * - Toggle visibility between the formatted value and `"••••••••"`.
+ * - Shows a mocked monthly trend indicator (`+2.5% este mês`).
  *
- * Referência: SPEC.md seção 5 — Componentes Reutilizáveis
+ * @param props - {@link BalanceCardProps}
+ * @example
+ * <BalanceCard balance={12500.75} />
  */
 export const BalanceCard = memo(function BalanceCard({
   balance,
