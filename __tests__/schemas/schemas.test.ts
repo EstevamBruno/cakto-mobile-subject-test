@@ -1,39 +1,104 @@
-import { loginSchema, transferSchema } from "../../src/utils/schemas"
-
-/**
- * TODO: Implementar testes para os schemas Zod
- *
- * Use .safeParse() para testar validação sem throw.
- * Use .parse() para testar transformações (ex: CPF → só números).
- *
- * loginSchema:
- * - cpf: min 11 chars, transforma removendo não-dígitos
- * - password: min 6 chars
- *
- * transferSchema:
- * - bank: min 1 (obrigatório)
- * - account: regex /^\d{5}-\d{1}$/
- * - cpf: min 11, transforma removendo não-dígitos
- * - beneficiaryName: min 2, max 50
- * - amount: positivo, min 0.01
- * - note: max 140, opcional
- */
+import { loginSchema, transferSchema } from "../../src/utils/schemas";
 
 describe("loginSchema", () => {
-  it.todo("validates correct login data")
-  it.todo("fails on short password")
-  it.todo("fails on short CPF")
-  it.todo("transforms CPF to just numbers")
-})
+  it("validates correct login data", () => {
+    const result = loginSchema.safeParse({
+      cpf: "12345678900",
+      password: "123456",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("fails on short password", () => {
+    const result = loginSchema.safeParse({
+      cpf: "12345678900",
+      password: "123",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("fails on short CPF", () => {
+    const result = loginSchema.safeParse({
+      cpf: "1234567890",
+      password: "123456",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("transforms CPF to just numbers", () => {
+    const result = loginSchema.parse({
+      cpf: "123.456.789-00",
+      password: "123456",
+    });
+    expect(result.cpf).toBe("12345678900");
+  });
+});
 
 describe("transferSchema", () => {
-  it.todo("validates correct transfer data")
-  it.todo("fails without bank")
-  it.todo("fails with invalid account format")
-  it.todo("fails with negative amount")
-  it.todo("fails with zero amount")
-  it.todo("fails with short beneficiary name")
-  it.todo("fails with note over 140 chars")
-  it.todo("accepts optional note")
-  it.todo("transforms CPF to just numbers")
-})
+  const validData = {
+    bank: "Nubank",
+    account: "12345-6",
+    cpf: "12345678900",
+    beneficiaryName: "João Silva",
+    amount: 100,
+    note: "pagamento",
+  };
+
+  it("validates correct transfer data", () => {
+    const result = transferSchema.safeParse(validData);
+    expect(result.success).toBe(true);
+  });
+
+  it("fails without bank", () => {
+    const result = transferSchema.safeParse({ ...validData, bank: "" });
+    expect(result.success).toBe(false);
+  });
+
+  it("fails with invalid account format", () => {
+    const result = transferSchema.safeParse({
+      ...validData,
+      account: "1234-5",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("fails with negative amount", () => {
+    const result = transferSchema.safeParse({ ...validData, amount: -1 });
+    expect(result.success).toBe(false);
+  });
+
+  it("fails with zero amount", () => {
+    const result = transferSchema.safeParse({ ...validData, amount: 0 });
+    expect(result.success).toBe(false);
+  });
+
+  it("fails with short beneficiary name", () => {
+    const result = transferSchema.safeParse({
+      ...validData,
+      beneficiaryName: "J",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("fails with note over 140 chars", () => {
+    const result = transferSchema.safeParse({
+      ...validData,
+      note: "a".repeat(141),
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("accepts optional note", () => {
+    const { note: _, ...dataWithoutNote } = validData;
+    const result = transferSchema.safeParse(dataWithoutNote);
+    expect(result.success).toBe(true);
+  });
+
+  it("transforms CPF to just numbers", () => {
+    const result = transferSchema.parse({
+      ...validData,
+      cpf: "123.456.789-00",
+    });
+    expect(result.cpf).toBe("12345678900");
+  });
+});
