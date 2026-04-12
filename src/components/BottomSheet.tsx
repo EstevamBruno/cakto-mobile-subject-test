@@ -10,21 +10,58 @@ import {
 import { X } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius } from "@/theme";
 
+/** Represents an option displayed in the BottomSheet list. */
 interface BottomSheetOption {
+  /** Unique identifier for the option. */
   id: string;
+  /** Primary text displayed in the option row. */
   label: string;
+  /** Optional secondary text displayed below the label. */
   sublabel?: string;
 }
 
+/** Props for the BottomSheet component. */
 interface BottomSheetProps {
+  /** Controls the visibility of the modal. */
   visible: boolean;
+  /** Callback invoked when the sheet is closed (backdrop, X button, or hardware back). */
   onClose: () => void;
+  /** Title displayed in the sheet header. */
   title: string;
+  /** List of options rendered in the FlatList. */
   options: BottomSheetOption[];
+  /** Callback invoked with the option selected by the user. */
   onSelect: (option: BottomSheetOption) => void;
+  /** Id of the currently selected option. */
   selectedId?: string;
 }
 
+/**
+ * A modal bottom sheet that slides up from the bottom of the screen,
+ * presenting a scrollable list of selectable options.
+ *
+ * Features:
+ * - Closes on backdrop tap, X button press, or hardware back (Android).
+ * - Highlights the currently selected option via `selectedId`.
+ * - Automatically closes the sheet after an option is selected.
+ *
+ * @param props.visible - Controls the visibility of the modal.
+ * @param props.onClose - Callback invoked when the sheet is dismissed (backdrop, X button, or hardware back).
+ * @param props.title - Title displayed in the sheet header.
+ * @param props.options - List of options rendered in the scrollable list.
+ * @param props.onSelect - Callback invoked with the option selected by the user.
+ * @param props.selectedId - Id of the currently selected option; highlights the matching row.
+ *
+ * @example
+ * <BottomSheet
+ *   visible={isOpen}
+ *   onClose={() => setIsOpen(false)}
+ *   title="Select a bank"
+ *   options={bankOptions}
+ *   onSelect={(option) => setSelectedBank(option)}
+ *   selectedId={selectedBank?.id}
+ * />
+ */
 export function BottomSheet({
   visible,
   onClose,
