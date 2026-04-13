@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,9 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
 import { Controller } from "react-hook-form";
 import { ChevronLeft, Building2, Check, X } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
@@ -38,22 +38,16 @@ export const TransferView: FC<TransferViewProps> = ({
   errorMessage,
   isLoading,
   getValues,
+  stepTitle,
+  handleBackPress,
+  router,
 }) => {
   const insets = useSafeAreaInsets();
-  const router = useRouter();
 
-  const stepTitle =
-    step === "form" ? "Transferir" : step === "review" ? "Revisar" : "";
-
-  const handleBackPress = (): void => {
-    if (step === "form") {
-      router.back();
-
-      return;
-    }
-
-    onBack();
-  };
+  const cpfRef = useRef<TextInput>(null);
+  const beneficiaryNameRef = useRef<TextInput>(null);
+  const amountRef = useRef<TextInput>(null);
+  const noteRef = useRef<TextInput>(null);
 
   const bankOptions = banks.map((b) => ({
     id: b.id,
@@ -119,6 +113,8 @@ export const TransferView: FC<TransferViewProps> = ({
                   value={value}
                   error={errors.account?.message}
                   maxLength={7}
+                  returnKeyType="next"
+                  onSubmitEditing={() => cpfRef.current?.focus()}
                 />
               )}
             />
@@ -128,6 +124,7 @@ export const TransferView: FC<TransferViewProps> = ({
               name="cpf"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
+                  ref={cpfRef}
                   label="CPF/CNPJ do favorecido"
                   maskType="CPF"
                   placeholder="000.000.000-00"
@@ -136,6 +133,8 @@ export const TransferView: FC<TransferViewProps> = ({
                   onBlur={onBlur}
                   value={value}
                   error={errors.cpf?.message}
+                  returnKeyType="next"
+                  onSubmitEditing={() => beneficiaryNameRef.current?.focus()}
                 />
               )}
             />
@@ -145,17 +144,21 @@ export const TransferView: FC<TransferViewProps> = ({
               name="beneficiaryName"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
+                  ref={beneficiaryNameRef}
                   label="Nome do favorecido"
                   placeholder="Nome completo"
                   onChangeText={onChange}
                   onBlur={onBlur}
                   value={value}
                   error={errors.beneficiaryName?.message}
+                  returnKeyType="next"
+                  onSubmitEditing={() => amountRef.current?.focus()}
                 />
               )}
             />
 
             <Input
+              ref={amountRef}
               label="Valor"
               placeholder="0,00"
               keyboardType="numeric"
@@ -163,6 +166,8 @@ export const TransferView: FC<TransferViewProps> = ({
               onChangeText={onAmountChange}
               error={errors.amount?.message}
               rightIcon={<Text style={styles.currencyPrefix}>R$</Text>}
+              returnKeyType="next"
+              onSubmitEditing={() => noteRef.current?.focus()}
             />
 
             <Controller
@@ -170,6 +175,7 @@ export const TransferView: FC<TransferViewProps> = ({
               name="note"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
+                  ref={noteRef}
                   label="Observação (opcional)"
                   placeholder="Máximo 140 caracteres"
                   onChangeText={onChange}
@@ -177,6 +183,8 @@ export const TransferView: FC<TransferViewProps> = ({
                   value={value}
                   error={errors.note?.message}
                   maxLength={140}
+                  returnKeyType="done"
+                  onSubmitEditing={onReview}
                 />
               )}
             />

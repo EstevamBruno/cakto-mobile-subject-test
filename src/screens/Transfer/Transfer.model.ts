@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { transferSchema, TransferInput } from "@/utils/schemas";
 import { formatMoneyInput, parseMoneyInput } from "@/utils/format";
 import { Bank, TransferData } from "@/types";
+import { useRouter } from "expo-router";
 
 export type TransferStep = "form" | "review" | "result";
 
@@ -23,6 +24,7 @@ export const useTransferModel = (module: TransferModelModule) => {
   const [isLoading, setIsLoading] = useState(false);
   const [transactionId, setTransactionId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const {
     control,
@@ -43,6 +45,19 @@ export const useTransferModel = (module: TransferModelModule) => {
     },
     mode: "all",
   });
+
+  const stepTitle =
+    step === "form" ? "Transferir" : step === "review" ? "Revisar" : "";
+
+  const handleBackPress = (): void => {
+    if (step === "form") {
+      router.back();
+
+      return;
+    }
+
+    onBack();
+  };
 
   const onSelectBank = useCallback(
     (bank: Bank) => {
@@ -123,5 +138,8 @@ export const useTransferModel = (module: TransferModelModule) => {
     errorMessage,
     isLoading,
     getValues,
+    stepTitle,
+    handleBackPress,
+    router,
   };
 };
