@@ -1,18 +1,18 @@
-import { create } from "zustand"
-import { Transaction } from "../types"
-import { api } from "../services/api"
+import { create } from "zustand";
+import { Transaction } from "@/types";
+import { api } from "@/services/api";
 
 interface TransactionState {
-  transactions: Transaction[]
-  isLoading: boolean
-  isLoadingMore: boolean
-  page: number
-  hasMore: boolean
-  error: string | null
-  balance: number
-  fetchTransactions: (page?: number) => Promise<void>
-  fetchBalance: () => Promise<void>
-  reset: () => void
+  transactions: Transaction[];
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  page: number;
+  hasMore: boolean;
+  error: string | null;
+  balance: number;
+  fetchTransactions: (page?: number) => Promise<void>;
+  fetchBalance: () => Promise<void>;
+  reset: () => void;
 }
 
 /**
@@ -43,39 +43,46 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
   balance: 0,
 
   fetchTransactions: async (_page?: number) => {
-    const page = _page ?? get().page
+    const page = _page ?? get().page;
 
     if (page === 1) {
-      set({ isLoading: true, error: null })
+      set({ isLoading: true, error: null });
     } else {
-      set({ isLoadingMore: true, error: null })
+      set({ isLoadingMore: true, error: null });
     }
 
     try {
-      const response = await api.getTransactions(page)
+      const response = await api.getTransactions(page);
 
       set((state) => ({
-        transactions: page === 1 ? response.data : [...state.transactions, ...response.data],
+        transactions:
+          page === 1
+            ? response.data
+            : [...state.transactions, ...response.data],
         hasMore: response.hasMore,
         page: response.page,
         isLoading: false,
         isLoadingMore: false,
-      }))
+      }));
     } catch (error) {
-      set({ error: (error as Error).message, isLoading: false, isLoadingMore: false })
+      set({
+        error: (error as Error).message,
+        isLoading: false,
+        isLoadingMore: false,
+      });
     }
   },
 
   fetchBalance: async () => {
     try {
-      const response = await api.getBalance()
-      set({ balance: response.balance })
+      const response = await api.getBalance();
+      set({ balance: response.balance });
     } catch (error) {
-      set({ error: (error as Error).message })
+      set({ error: (error as Error).message });
     }
   },
 
   reset: () => {
-    set({ transactions: [], page: 1, hasMore: true, balance: 0, error: null })
+    set({ transactions: [], page: 1, hasMore: true, balance: 0, error: null });
   },
-}))
+}));

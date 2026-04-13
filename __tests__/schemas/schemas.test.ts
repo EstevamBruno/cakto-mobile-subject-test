@@ -1,4 +1,4 @@
-import { loginSchema, transferSchema } from "../../src/utils/schemas";
+import { loginSchema, transferSchema } from "@/utils/schemas";
 
 describe("loginSchema", () => {
   it("validates correct login data", () => {

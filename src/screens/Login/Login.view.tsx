@@ -3,7 +3,6 @@ import { StyleSheet, ScrollView, Image, Text } from "react-native";
 import { Controller } from "react-hook-form";
 import { colors, spacing, typography } from "@/theme";
 import { Button, Input } from "@/components";
-import { formatCPF } from "@/utils/format";
 import CaktoLogo from "../../../assets/cakto-logo.png";
 import { useLoginModel } from "./Login.model";
 

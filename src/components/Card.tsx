@@ -1,13 +1,13 @@
-import React from "react"
-import { View, ViewStyle, StyleSheet } from "react-native"
-import { colors, borderRadius, spacing, shadows } from "../theme"
+import React from "react";
+import { View, ViewStyle, StyleSheet } from "react-native";
+import { colors, borderRadius, spacing, shadows } from "@/theme";
 
 /** Props for the {@link Card} component. */
 interface CardProps {
   /** Content to render inside the card. */
-  children: React.ReactNode
+  children: React.ReactNode;
   /** Additional styles applied to the card container. */
-  style?: ViewStyle
+  style?: ViewStyle;
 }
 
 /**
@@ -28,7 +28,7 @@ interface CardProps {
  * </Card>
  */
 export function Card({ children, style }: CardProps) {
-  return <View style={[styles.card, style]}>{children}</View>
+  return <View style={[styles.card, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     ...shadows.sm,
   },
-})
+});

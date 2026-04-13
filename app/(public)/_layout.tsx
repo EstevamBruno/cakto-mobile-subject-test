@@ -1,12 +1,12 @@
-import { Stack, Redirect } from "expo-router"
-import { useAuthStore } from "../../src/stores/authStore"
-import { colors } from "../../src/theme"
+import { Stack, Redirect } from "expo-router";
+import { useAuthStore } from "@/stores/authStore";
+import { colors } from "@/theme";
 
 export default function PublicLayout() {
-  const { isAuthenticated, isLoading } = useAuthStore()
+  const { isAuthenticated, isLoading } = useAuthStore();
 
   if (!isLoading && isAuthenticated) {
-    return <Redirect href="/home" />
+    return <Redirect href="/home" />;
   }
 
   return (
@@ -16,5 +16,5 @@ export default function PublicLayout() {
         contentStyle: { backgroundColor: colors.background },
       }}
     />
-  )
+  );
 }

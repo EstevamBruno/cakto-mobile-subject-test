@@ -1,8 +1,8 @@
 import React, { memo, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Eye, EyeOff, TrendingUp } from "lucide-react-native";
-import { colors, typography, spacing, borderRadius, shadows } from "../theme";
-import { formatCurrency } from "../utils/format";
+import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
+import { formatCurrency } from "@/utils/format";
 
 /**
  * Props for the {@link BalanceCard} component.

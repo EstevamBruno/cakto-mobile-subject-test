@@ -1,7 +1,7 @@
-import { useAuthStore, TOKEN_KEY, USER_KEY } from "../../src/stores/authStore";
+import { useAuthStore, TOKEN_KEY, USER_KEY } from "@/stores/authStore";
 import * as SecureStore from "expo-secure-store";
 import { api } from "@/services";
-import { AuthResponse } from "../../src/types";
+import { AuthResponse } from "@/types";
 
 jest.mock("@/services", () => ({
   api: {
@@ -85,9 +85,7 @@ describe("useAuthStore", () => {
       });
       (api.login as jest.Mock).mockReturnValue(pending);
 
-      const loginPromise = useAuthStore
-        .getState()
-        .login(mockUser.cpf, "any");
+      const loginPromise = useAuthStore.getState().login(mockUser.cpf, "any");
 
       expect(useAuthStore.getState().isLoading).toBe(true);
 

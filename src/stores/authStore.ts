@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { User } from "../types";
+import { User } from "@/types";
 import * as SecureStore from "expo-secure-store";
 import { api } from "@/services";
 

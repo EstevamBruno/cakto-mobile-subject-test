@@ -7,7 +7,7 @@ import {
   formatMoneyInput,
   parseMoneyInput,
   getInitials,
-} from "../../src/utils/format";
+} from "@/utils/format";
 
 describe("formatCurrency", () => {
   it("formats number to BRL string", () => {

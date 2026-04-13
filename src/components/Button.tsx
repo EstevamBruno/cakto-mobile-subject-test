@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ViewStyle,
 } from "react-native";
-import { colors, typography, spacing, borderRadius } from "../theme";
+import { colors, typography, spacing, borderRadius } from "@/theme";
 
 /**
  * Visual style variant of the button.

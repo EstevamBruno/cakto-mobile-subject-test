@@ -8,8 +8,8 @@ import {
   TextInputProps,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
-import { colors, typography, spacing, borderRadius } from "../theme";
-import { formatCPF } from "../utils/format";
+import { colors, typography, spacing, borderRadius } from "@/theme";
+import { formatCPF } from "@/utils/format";
 
 type MaskType = "CPF";
 
