@@ -1,15 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { Transaction } from "@/types";
-import type { FilterType } from "@/types/Transactions.type";
-
-interface TransactionsModelModule {
-  transactions: Transaction[];
-  isLoading: boolean;
-  isLoadingMore: boolean;
-  page: number;
-  hasMore: boolean;
-  fetchTransactions: (page?: number) => Promise<void>;
-}
+import type { FilterType, TransactionsModelModule } from "@/types/Transactions.type";
 
 export const useTransactionsModel = (module: TransactionsModelModule) => {
   const {
