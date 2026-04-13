@@ -5,8 +5,7 @@ import { transferSchema, TransferInput } from "@/utils/schemas";
 import { formatMoneyInput, parseMoneyInput } from "@/utils/format";
 import { Bank, TransferData } from "@/types";
 import { useRouter } from "expo-router";
-
-export type TransferStep = "form" | "review" | "result";
+import type { TransferStep } from "@/types/Transfer.type";
 
 interface TransferModelModule {
   transfer: (

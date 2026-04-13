@@ -16,9 +16,7 @@ import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
 import { Button, Input, Card, BottomSheet } from "@/components";
 import { formatCPF, formatAccountNumber, formatCurrency } from "@/utils/format";
 import { banks } from "@/services/api";
-import { useTransferModel } from "./Transfer.model";
-
-interface TransferViewProps extends ReturnType<typeof useTransferModel> {}
+import type { TransferViewProps, ReviewRowProps } from "@/types/Transfer.type";
 
 export const TransferView: FC<TransferViewProps> = ({
   control,
@@ -307,12 +305,6 @@ export const TransferView: FC<TransferViewProps> = ({
     </KeyboardAvoidingView>
   );
 };
-
-interface ReviewRowProps {
-  label: string;
-  value: string;
-  valueStyle?: object;
-}
 
 const ReviewRow: FC<ReviewRowProps> = ({ label, value, valueStyle }) => (
   <View style={styles.reviewRow}>
