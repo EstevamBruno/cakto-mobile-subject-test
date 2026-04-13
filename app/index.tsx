@@ -1,21 +1,14 @@
 import { useAuthStore } from "@/stores";
 import { colors } from "@/theme";
 import { Redirect } from "expo-router";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 
 export default function Index() {
   const { isAuthenticated, isLoading } = useAuthStore();
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: colors.background,
-        }}
-      >
+      <View style={styles.container}>
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
@@ -27,3 +20,12 @@ export default function Index() {
 
   return <Redirect href="/login" />;
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.background,
+  },
+});
