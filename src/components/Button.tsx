@@ -1,39 +1,7 @@
 import React from "react";
-import {
-  Pressable,
-  Text,
-  ActivityIndicator,
-  StyleSheet,
-  ViewStyle,
-} from "react-native";
+import { Pressable, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { colors, typography, spacing, borderRadius } from "@/theme";
-
-/**
- * Visual style variant of the button.
- *
- * - `primary` — filled blue background, white text.
- * - `secondary` — white background with a blue outline.
- * - `ghost` — transparent background, default text color.
- */
-type ButtonVariant = "primary" | "secondary" | "ghost";
-
-/** Props for the Button component. */
-interface ButtonProps {
-  /** Label text rendered inside the button. */
-  title: string;
-  /** Callback invoked when the button is pressed. */
-  onPress: () => void;
-  /** Visual style variant. Defaults to `"primary"`. */
-  variant?: ButtonVariant;
-  /** When `true`, disables interaction and shows an `ActivityIndicator`. */
-  loading?: boolean;
-  /** When `true`, disables interaction and reduces opacity. */
-  disabled?: boolean;
-  /** Additional styles applied to the outer `Pressable` container. */
-  style?: ViewStyle;
-  /** Accessibility hint read by screen readers to describe the button action. */
-  accessibilityHint?: string;
-}
+import type { ButtonVariant, ButtonProps } from "@/types/Button.type";
 
 /**
  * A full-width pressable button with three visual variants, loading state,
