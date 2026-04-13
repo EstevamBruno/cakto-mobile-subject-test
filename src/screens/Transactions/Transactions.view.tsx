@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useMemo } from "react"
+import React, { FC, memo, useCallback, useMemo } from "react";
 import {
   View,
   Text,
@@ -7,25 +7,31 @@ import {
   RefreshControl,
   StyleSheet,
   ActivityIndicator,
-} from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useRouter } from "expo-router"
-import { ChevronLeft, Filter, Inbox } from "lucide-react-native"
-import { colors, typography, spacing, borderRadius, shadows } from "@/theme"
-import { TransactionItem } from "@/components"
-import { Transaction } from "@/types"
-import { FilterType, useTransactionsModel } from "./Transactions.model"
-
-interface TransactionsViewProps extends ReturnType<typeof useTransactionsModel> {}
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { ChevronLeft, Filter, Inbox } from "lucide-react-native";
+import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
+import { TransactionItem } from "@/components";
+import { Transaction } from "@/types";
+import { useTransactionsModel } from "./Transactions.model";
+import type {
+  FilterType,
+  TransactionsViewProps,
+} from "@/types/Transactions.type";
 
 const FILTER_OPTIONS: { label: string; value: FilterType }[] = [
   { label: "Todas", value: "all" },
   { label: "Receitas", value: "income" },
   { label: "Despesas", value: "expense" },
-]
+];
 
-const EmptyState = memo(function EmptyState({ filterType }: { filterType: FilterType }) {
-  const isFiltered = filterType !== "all"
+const EmptyState = memo(function EmptyState({
+  filterType,
+}: {
+  filterType: FilterType;
+}) {
+  const isFiltered = filterType !== "all";
   return (
     <View style={styles.emptyContainer}>
       {isFiltered ? (
@@ -34,7 +40,9 @@ const EmptyState = memo(function EmptyState({ filterType }: { filterType: Filter
         <Inbox size={40} color={colors.disabled} />
       )}
       <Text style={styles.emptyTitle}>
-        {isFiltered ? "Nenhuma transação para este filtro" : "Nenhuma transação encontrada"}
+        {isFiltered
+          ? "Nenhuma transação para este filtro"
+          : "Nenhuma transação encontrada"}
       </Text>
       <Text style={styles.emptySubtitle}>
         {isFiltered
@@ -42,8 +50,8 @@ const EmptyState = memo(function EmptyState({ filterType }: { filterType: Filter
           : "Suas transações aparecerão aqui"}
       </Text>
     </View>
-  )
-})
+  );
+});
 
 export const TransactionsView: FC<TransactionsViewProps> = ({
   transactions,
@@ -56,17 +64,17 @@ export const TransactionsView: FC<TransactionsViewProps> = ({
   onEndReached,
   onSelectFilter,
 }) => {
-  const insets = useSafeAreaInsets()
-  const router = useRouter()
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
 
-  const keyExtractor = useCallback((item: Transaction) => item.id, [])
+  const keyExtractor = useCallback((item: Transaction) => item.id, []);
 
   const renderItem = useCallback(
     ({ item }: { item: Transaction }) => <TransactionItem transaction={item} />,
     [],
-  )
+  );
 
-  const ItemSeparator = useCallback(() => <View style={styles.divider} />, [])
+  const ItemSeparator = useCallback(() => <View style={styles.divider} />, []);
 
   const ListFooter = useCallback(() => {
     if (isLoadingMore) {
@@ -75,17 +83,17 @@ export const TransactionsView: FC<TransactionsViewProps> = ({
           <ActivityIndicator size="small" color={colors.primary} />
           <Text style={styles.footerText}>Carregando mais...</Text>
         </View>
-      )
+      );
     }
     if (!hasMore && transactions.length > 0) {
       return (
         <View style={styles.footerEnd}>
           <Text style={styles.footerEndText}>Fim das transações</Text>
         </View>
-      )
+      );
     }
-    return null
-  }, [isLoadingMore, hasMore, transactions.length])
+    return null;
+  }, [isLoadingMore, hasMore, transactions.length]);
 
   const ListHeader = useMemo(
     () => (
@@ -105,7 +113,7 @@ export const TransactionsView: FC<TransactionsViewProps> = ({
 
         <View style={styles.filterRow}>
           {FILTER_OPTIONS.map((option) => {
-            const isActive = filterType === option.value
+            const isActive = filterType === option.value;
             return (
               <TouchableOpacity
                 key={option.value}
@@ -115,17 +123,22 @@ export const TransactionsView: FC<TransactionsViewProps> = ({
                 accessibilityRole="button"
                 accessibilityState={{ selected: isActive }}
               >
-                <Text style={[styles.filterPillText, isActive && styles.filterPillTextActive]}>
+                <Text
+                  style={[
+                    styles.filterPillText,
+                    isActive && styles.filterPillTextActive,
+                  ]}
+                >
                   {option.label}
                 </Text>
               </TouchableOpacity>
-            )
+            );
           })}
         </View>
       </View>
     ),
     [filterType, insets.top, onSelectFilter, router],
-  )
+  );
 
   return (
     <FlatList
@@ -160,8 +173,8 @@ export const TransactionsView: FC<TransactionsViewProps> = ({
         />
       }
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -266,4 +279,4 @@ const styles = StyleSheet.create({
     fontSize: typography.sm,
     color: colors.textSecondary,
   },
-})
+});

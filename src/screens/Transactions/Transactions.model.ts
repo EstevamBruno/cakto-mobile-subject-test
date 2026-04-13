@@ -1,7 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { Transaction } from "@/types";
-
-export type FilterType = "all" | "income" | "expense";
+import type { FilterType } from "@/types/Transactions.type";
 
 interface TransactionsModelModule {
   transactions: Transaction[];
