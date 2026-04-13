@@ -1,16 +1,6 @@
 import { useState, useCallback, useMemo } from "react"
-import { User, Transaction } from "@/types"
 import { getInitials } from "@/utils/format"
-
-interface HomeModelModule {
-  user: User | null
-  balance: number
-  transactions: Transaction[]
-  isLoading: boolean
-  fetchTransactions: (page?: number) => Promise<void>
-  fetchBalance: () => Promise<void>
-  logout: () => Promise<void>
-}
+import type { HomeModelModule } from "@/types/Home.type"
 
 export const useHomeModel = (module: HomeModelModule) => {
   const { user, balance, transactions, isLoading, fetchTransactions, fetchBalance, logout } = module
