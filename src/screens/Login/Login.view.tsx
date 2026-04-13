@@ -4,9 +4,7 @@ import { Controller } from "react-hook-form";
 import { colors, spacing, typography } from "@/theme";
 import { Button, Input } from "@/components";
 import CaktoLogo from "../../../assets/cakto-logo.png";
-import { useLoginModel } from "./Login.model";
-
-interface LoginViewProps extends ReturnType<typeof useLoginModel> {}
+import type { LoginViewProps } from "@/types/Login.type";
 
 export const LoginView: FC<LoginViewProps> = ({
   control,
