@@ -21,9 +21,7 @@ import {
 import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
 import { BalanceCard, Card, TransactionItem } from "@/components";
 import { Transaction } from "@/types";
-import { useHomeModel } from "./Home.model";
-
-interface HomeViewProps extends ReturnType<typeof useHomeModel> {}
+import type { HomeViewProps } from "@/types/Home.type";
 
 export const HomeView: FC<HomeViewProps> = ({
   user,
