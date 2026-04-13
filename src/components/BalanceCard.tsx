@@ -3,14 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Eye, EyeOff, TrendingUp } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
 import { formatCurrency } from "@/utils/format";
-
-/**
- * Props for the {@link BalanceCard} component.
- */
-interface BalanceCardProps {
-  /** Account balance value formatted in BRL by `formatCurrency`. */
-  balance: number;
-}
+import type { BalanceCardProps } from "@/types/BalanceCard.type";
 
 /**
  * Displays the user's total account balance on a primary-coloured card.
