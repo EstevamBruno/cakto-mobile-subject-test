@@ -25,6 +25,10 @@ const masks: Record<MaskType, (value: string) => string> = {
   CPF: formatCPF,
 };
 
+const maskMaxLength: Record<MaskType, number> = {
+  CPF: 11,
+};
+
 /**
  * A labeled text input with focus/error border states, optional password
  * visibility toggle, and optional input masking.
@@ -78,7 +82,8 @@ export function Input({
 
   const handleChangeText = (text: string) => {
     if (maskType) {
-      onChangeText?.(text.replace(/\D/g, ""));
+      const digits = text.replace(/\D/g, "").slice(0, maskMaxLength[maskType]);
+      onChangeText?.(digits);
     } else {
       onChangeText?.(text);
     }

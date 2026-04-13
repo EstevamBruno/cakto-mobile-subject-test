@@ -136,7 +136,6 @@ export const TransferView: FC<TransferViewProps> = ({
                   onBlur={onBlur}
                   value={value}
                   error={errors.cpf?.message}
-                  maxLength={14}
                 />
               )}
             />
