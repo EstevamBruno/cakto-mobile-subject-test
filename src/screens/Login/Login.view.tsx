@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { StyleSheet, ScrollView, Image, Text } from "react-native";
+import React, { FC, useRef } from "react";
+import { StyleSheet, ScrollView, Image, Text, TextInput } from "react-native";
 import { Controller } from "react-hook-form";
 import { colors, spacing, typography } from "@/theme";
 import { Button, Input } from "@/components";
@@ -15,6 +15,8 @@ export const LoginView: FC<LoginViewProps> = ({
   error,
   onSubmit,
 }) => {
+  const passwordInputRef = useRef<TextInput>(null);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -38,6 +40,8 @@ export const LoginView: FC<LoginViewProps> = ({
             value={value}
             error={errors.cpf?.message}
             keyboardType="numeric"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordInputRef.current?.focus()}
           />
         )}
       />
@@ -47,6 +51,7 @@ export const LoginView: FC<LoginViewProps> = ({
         name="password"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
+            ref={passwordInputRef}
             label="Senha"
             placeholder="Digite sua senha"
             secureTextEntry
@@ -54,6 +59,8 @@ export const LoginView: FC<LoginViewProps> = ({
             onBlur={onBlur}
             value={value}
             error={errors.password?.message}
+            returnKeyType="done"
+            onSubmitEditing={onSubmit}
           />
         )}
       />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import {
   View,
   Text,
@@ -44,6 +44,7 @@ const maskMaxLength: Record<MaskType, number> = {
  * @param props.secureTextEntry - When `true`, hides text and renders a visibility toggle icon.
  * @param props.rightIcon - Custom node rendered at the trailing edge (ignored when `secureTextEntry` is true).
  * @param props.maskType - Mask to apply to the display value. Currently supports `"CPF"`.
+ * @param ref - Forwarded ref to the underlying `TextInput`, useful for imperative focus calls.
  *
  * @example
  * // Basic usage
@@ -63,7 +64,7 @@ const maskMaxLength: Record<MaskType, number> = {
  *   error={cpfError}
  * />
  */
-export function Input({
+export const Input = forwardRef<TextInput, InputProps>(function Input({
   label,
   error,
   secureTextEntry,
@@ -74,7 +75,7 @@ export function Input({
   onChangeText,
   value,
   ...props
-}: InputProps) {
+}: InputProps, ref) {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -100,6 +101,7 @@ export function Input({
       <Text style={styles.label}>{label}</Text>
       <View style={[styles.inputWrapper, { borderColor }]}>
         <TextInput
+          ref={ref}
           style={styles.input}
           placeholderTextColor={colors.disabled}
           accessibilityLabel={label}
@@ -137,7 +139,7 @@ export function Input({
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
