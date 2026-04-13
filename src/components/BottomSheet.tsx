@@ -9,32 +9,10 @@ import {
 } from "react-native";
 import { X } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius } from "@/theme";
-
-/** Represents an option displayed in the BottomSheet list. */
-interface BottomSheetOption {
-  /** Unique identifier for the option. */
-  id: string;
-  /** Primary text displayed in the option row. */
-  label: string;
-  /** Optional secondary text displayed below the label. */
-  sublabel?: string;
-}
-
-/** Props for the BottomSheet component. */
-interface BottomSheetProps {
-  /** Controls the visibility of the modal. */
-  visible: boolean;
-  /** Callback invoked when the sheet is closed (backdrop, X button, or hardware back). */
-  onClose: () => void;
-  /** Title displayed in the sheet header. */
-  title: string;
-  /** List of options rendered in the FlatList. */
-  options: BottomSheetOption[];
-  /** Callback invoked with the option selected by the user. */
-  onSelect: (option: BottomSheetOption) => void;
-  /** Id of the currently selected option. */
-  selectedId?: string;
-}
+import type {
+  BottomSheetOption,
+  BottomSheetProps,
+} from "@/types/BottomSheet.type";
 
 /**
  * A modal bottom sheet that slides up from the bottom of the screen,
