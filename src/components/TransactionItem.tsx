@@ -1,13 +1,9 @@
 import React, { memo, useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ArrowDownLeft, ArrowUpRight } from "lucide-react-native";
-import { Transaction } from "@/types";
 import { colors, typography, spacing, borderRadius } from "@/theme";
 import { formatCurrency, formatDate } from "@/utils/format";
-
-interface TransactionItemProps {
-  transaction: Transaction;
-}
+import type { TransactionItemProps } from "@/types/TransactionItem.type";
 
 /**
  * Renders a single transaction row with a type icon, description, date, and amount.
