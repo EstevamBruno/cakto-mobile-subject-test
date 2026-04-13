@@ -3,15 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { transferSchema, TransferInput } from "@/utils/schemas";
 import { formatMoneyInput, parseMoneyInput } from "@/utils/format";
-import { Bank, TransferData } from "@/types";
+import { Bank } from "@/types";
 import { useRouter } from "expo-router";
-import type { TransferStep } from "@/types/Transfer.type";
-
-interface TransferModelModule {
-  transfer: (
-    data: TransferData,
-  ) => Promise<{ success: boolean; transactionId: string }>;
-}
+import type { TransferStep, TransferModelModule } from "@/types/Transfer.type";
 
 export const useTransferModel = (module: TransferModelModule) => {
   const { transfer } = module;
