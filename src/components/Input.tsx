@@ -5,21 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  TextInputProps,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius } from "@/theme";
 import { formatCPF } from "@/utils/format";
-
-type MaskType = "CPF";
-
-interface InputProps extends Omit<TextInputProps, "style"> {
-  label: string;
-  error?: string;
-  secureTextEntry?: boolean;
-  rightIcon?: React.ReactNode;
-  maskType?: MaskType;
-}
+import type { MaskType, InputProps } from "@/types/Input.type";
 
 const masks: Record<MaskType, (value: string) => string> = {
   CPF: formatCPF,
@@ -64,18 +54,21 @@ const maskMaxLength: Record<MaskType, number> = {
  *   error={cpfError}
  * />
  */
-export const Input = forwardRef<TextInput, InputProps>(function Input({
-  label,
-  error,
-  secureTextEntry,
-  rightIcon,
-  maskType,
-  onFocus,
-  onBlur,
-  onChangeText,
-  value,
-  ...props
-}: InputProps, ref) {
+export const Input = forwardRef<TextInput, InputProps>(function Input(
+  {
+    label,
+    error,
+    secureTextEntry,
+    rightIcon,
+    maskType,
+    onFocus,
+    onBlur,
+    onChangeText,
+    value,
+    ...props
+  }: InputProps,
+  ref,
+) {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
