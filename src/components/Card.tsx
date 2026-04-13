@@ -1,14 +1,7 @@
 import React from "react";
-import { View, ViewStyle, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { colors, borderRadius, spacing, shadows } from "@/theme";
-
-/** Props for the {@link Card} component. */
-interface CardProps {
-  /** Content to render inside the card. */
-  children: React.ReactNode;
-  /** Additional styles applied to the card container. */
-  style?: ViewStyle;
-}
+import type { CardProps } from "@/types/Card.type";
 
 /**
  * A styled surface container with rounded corners, padding, and a soft shadow.
