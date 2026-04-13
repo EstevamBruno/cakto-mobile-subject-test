@@ -1,12 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginInput } from "@/utils/schemas";
-
-interface LoginModelModule {
-  login: (cpf: string, password: string) => Promise<void>;
-  isLoading: boolean;
-  error: string | null;
-}
+import type { LoginModelModule } from "@/types/Login.type";
 
 export const useLoginModel = (module: LoginModelModule) => {
   const { login, isLoading, error } = module;
