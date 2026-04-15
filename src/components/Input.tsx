@@ -8,15 +8,15 @@ import {
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius } from "@/theme";
-import { formatCPF } from "@/utils/format";
-import type { MaskType, InputProps } from "@/types/Input.type";
+import { formatCPF, formatMoneyInput } from "@/utils/format";
+import type { Mask, InputProps } from "@/types/Input.type";
 
-const masks: Record<MaskType, (value: string) => string> = {
-  CPF: formatCPF,
-};
-
-const maskMaxLength: Record<MaskType, number> = {
-  CPF: 11,
+const maskConfig: Record<
+  Mask,
+  { format: (value: string) => string; maxDigits?: number }
+> = {
+  CPF: { format: formatCPF, maxDigits: 11 },
+  MONEY: { format: formatMoneyInput },
 };
 
 /**
@@ -26,14 +26,14 @@ const maskMaxLength: Record<MaskType, number> = {
  * Features:
  * - Blue border on focus, red border + error message on error
  * - Eye/EyeOff toggle when `secureTextEntry` is true
- * - `maskType="CPF"` formats display value; raw digits are passed to `onChangeText`
+ * - `mask="CPF"` / `mask="MONEY"` formats display value; raw digits are passed to `onChangeText`
  * - `rightIcon` slot for any custom trailing icon
  *
  * @param props.label - Text rendered above the input; also used as `accessibilityLabel`.
  * @param props.error - Error message shown below the input; triggers red border when set.
  * @param props.secureTextEntry - When `true`, hides text and renders a visibility toggle icon.
  * @param props.rightIcon - Custom node rendered at the trailing edge (ignored when `secureTextEntry` is true).
- * @param props.maskType - Mask to apply to the display value. Currently supports `"CPF"`.
+ * @param props.mask - Mask to apply to the display value. Supports `"CPF"` and `"MONEY"`.
  * @param ref - Forwarded ref to the underlying `TextInput`, useful for imperative focus calls.
  *
  * @example
@@ -48,10 +48,20 @@ const maskMaxLength: Record<MaskType, number> = {
  * // CPF with error
  * <Input
  *   label="CPF"
- *   maskType="CPF"
+ *   mask="CPF"
  *   value={cpf}
  *   onChangeText={setCpf}
  *   error={cpfError}
+ * />
+ *
+ * @example
+ * // Money input (raw digits in; formatted display out — use parseMoneyInput to get the number)
+ * <Input
+ *   label="Valor"
+ *   mask="MONEY"
+ *   keyboardType="numeric"
+ *   value={amountDigits}
+ *   onChangeText={setAmountDigits}
  * />
  */
 export const Input = forwardRef<TextInput, InputProps>(function Input(
@@ -60,7 +70,7 @@ export const Input = forwardRef<TextInput, InputProps>(function Input(
     error,
     secureTextEntry,
     rightIcon,
-    maskType,
+    mask,
     onFocus,
     onBlur,
     onChangeText,
@@ -72,12 +82,13 @@ export const Input = forwardRef<TextInput, InputProps>(function Input(
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const displayValue = maskType && value ? masks[maskType](value) : value;
+  const displayValue = mask && value ? maskConfig[mask].format(value) : value;
 
   const handleChangeText = (text: string) => {
-    if (maskType) {
-      const digits = text.replace(/\D/g, "").slice(0, maskMaxLength[maskType]);
-      onChangeText?.(digits);
+    if (mask) {
+      const { maxDigits } = maskConfig[mask];
+      const digits = text.replace(/\D/g, "");
+      onChangeText?.(maxDigits ? digits.slice(0, maxDigits) : digits);
     } else {
       onChangeText?.(text);
     }

@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { transferSchema, TransferInput } from "@/utils/schemas";
-import { formatMoneyInput, parseMoneyInput } from "@/utils/format";
 import { Bank } from "@/types";
 import { useRouter } from "expo-router";
 import type { TransferStep, TransferModelModule } from "@/types/Transfer.type";
@@ -13,7 +12,6 @@ export const useTransferModel = (module: TransferModelModule) => {
   const [step, setStep] = useState<TransferStep>("form");
   const [selectedBank, setSelectedBank] = useState<Bank | null>(null);
   const [bankPickerVisible, setBankPickerVisible] = useState(false);
-  const [amountDisplay, setAmountDisplay] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [transactionId, setTransactionId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -60,15 +58,6 @@ export const useTransferModel = (module: TransferModelModule) => {
     [setValue],
   );
 
-  const onAmountChange = useCallback(
-    (raw: string) => {
-      const display = formatMoneyInput(raw);
-      setAmountDisplay(display);
-      setValue("amount", parseMoneyInput(raw), { shouldValidate: true });
-    },
-    [setValue],
-  );
-
   const onReview = useCallback(() => {
     handleSubmit(() => {
       setStep("review");
@@ -107,7 +96,6 @@ export const useTransferModel = (module: TransferModelModule) => {
   const onNewTransfer = useCallback(() => {
     reset();
     setSelectedBank(null);
-    setAmountDisplay("");
     setTransactionId(null);
     setErrorMessage(null);
     setStep("form");
@@ -121,8 +109,6 @@ export const useTransferModel = (module: TransferModelModule) => {
     bankPickerVisible,
     setBankPickerVisible,
     onSelectBank,
-    amountDisplay,
-    onAmountChange,
     onReview,
     onConfirm,
     onBack,

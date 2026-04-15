@@ -31,7 +31,7 @@ export const LoginView: FC<LoginViewProps> = ({
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
             label="CPF/CNPJ"
-            maskType="CPF"
+            mask="CPF"
             placeholder="Digite seu CPF/CNPJ"
             onChangeText={onChange}
             onBlur={onBlur}

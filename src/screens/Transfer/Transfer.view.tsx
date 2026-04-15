@@ -14,7 +14,11 @@ import { Controller } from "react-hook-form";
 import { ChevronLeft, Building2, Check, X } from "lucide-react-native";
 import { colors, typography, spacing, borderRadius, shadows } from "@/theme";
 import { Button, Input, Card, BottomSheet } from "@/components";
-import { formatCPF, formatAccountNumber, formatCurrency } from "@/utils/format";
+import {
+  formatAccountNumber,
+  formatCurrency,
+  parseMoneyInput,
+} from "@/utils/format";
 import { banks } from "@/services/api";
 import type { TransferViewProps, ReviewRowProps } from "@/types/Transfer.type";
 
@@ -26,8 +30,6 @@ export const TransferView: FC<TransferViewProps> = ({
   bankPickerVisible,
   setBankPickerVisible,
   onSelectBank,
-  amountDisplay,
-  onAmountChange,
   onReview,
   onConfirm,
   onBack,
@@ -124,7 +126,7 @@ export const TransferView: FC<TransferViewProps> = ({
                 <Input
                   ref={cpfRef}
                   label="CPF/CNPJ do favorecido"
-                  maskType="CPF"
+                  mask="CPF"
                   placeholder="000.000.000-00"
                   keyboardType="numeric"
                   onChangeText={onChange}
@@ -155,17 +157,25 @@ export const TransferView: FC<TransferViewProps> = ({
               )}
             />
 
-            <Input
-              ref={amountRef}
-              label="Valor"
-              placeholder="0,00"
-              keyboardType="numeric"
-              value={amountDisplay}
-              onChangeText={onAmountChange}
-              error={errors.amount?.message}
-              rightIcon={<Text style={styles.currencyPrefix}>R$</Text>}
-              returnKeyType="next"
-              onSubmitEditing={() => noteRef.current?.focus()}
+            <Controller
+              control={control}
+              name="amount"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  ref={amountRef}
+                  label="Valor"
+                  mask="MONEY"
+                  placeholder="0,00"
+                  keyboardType="numeric"
+                  value={value ? Math.round(value * 100).toString() : ""}
+                  onChangeText={(digits) => onChange(parseMoneyInput(digits))}
+                  onBlur={onBlur}
+                  error={errors.amount?.message}
+                  rightIcon={<Text style={styles.currencyPrefix}>R$</Text>}
+                  returnKeyType="next"
+                  onSubmitEditing={() => noteRef.current?.focus()}
+                />
+              )}
             />
 
             <Controller
